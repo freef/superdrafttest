@@ -1,39 +1,70 @@
-.App {
-  text-align: center;
+p {
+    margin: .5rem 0 .5rem 0;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.btn {
+    font-weight:bold;
+    margin: .25rem;
+    padding: 0.5rem;
+    background-color: #FFF;
+    border: 2px solid #000;
+    border-radius: .25rem;
+    transition:  .3s ease;
+    min-width: 50px;
+}
+.btn:hover {
+    background-color: #696969;
+    color: #FFF;
+    border: 2px solid #696969;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
+.card {
+    border: 1px solid gray;
+    border-radius: .25rem;
+    box-shadow: -3px 3px 10px gray;
+    margin: 1rem 0.5rem 0 0.5rem;
+    width: 74%;
+    min-width: 300px;
+    max-width: 750px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: lightgray;
+    transition: box-shadow .5s ease-in-out;
+}
+.card:hover {
+    box-shadow: -5px 5px 15px dimgray;
 }
 
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.hidden {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-options {
+    padding: 0 .5rem 0 .5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+.card-content {
+    background-color:white;
+    margin:0;
+    padding: 0.5rem .5rem 1rem 1rem;
+    border-radius: 0 0 .25rem .25rem;
 }
-
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px)
-  }
-  100% {
-    transform: translateY(0px)
-  }
+.same-line {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-right: 1rem;
+}
+.w100 {
+    width: 100%;
 }

@@ -1,58 +1,74 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, {useState, useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import {fetchData, selectData} from './features/dataSlice'
+import {nextPage, prevPage, selectPage} from './features/pageSlice'
+import {addPin, removePin, selectPin} from './features/pinSlice'
+import './App.css'
+import Draw from './Draw'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+    // app state 
+    const dispatch = useDispatch()
+    const apiData = useSelector(selectData) 
+    const page = useSelector(selectPage) 
+    const pinned = useSelector(selectPin)
+    // form state
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [search, setSearch] = useState('')
+
+    // display actions
+    const dataFilter = () => apiData.filter(e => e.drawNumber.toString().includes(search) || e.winningNumbers.join('-').includes(search) || e.winningNumbers.join(' ').includes(search))
+
+    // form actions
+    const handleSearch = (e) => setSearch(e.target.value)
+    const handleDates = (e) => {
+        e.preventDefault()
+        setSearch('')
+        dispatch(fetchData(new Date(startDate+'T00:00:00'),new Date(endDate+'T00:00:00')))
+        setStartDate('')
+        setEndDate('')
+    }
+
+    // make API call on component mount
+    useEffect(()=> {
+        dispatch(fetchData())
+    },[dispatch])
+
+    return (
+        <div className="App container"> 
+            <h1>Keno Lookup</h1>
+            <label htmlFor='search'>Search</label><input type='text' value={search} onChange={handleSearch} id='search' />
+            <form onSubmit={handleDates}>
+                <label htmlFor="start-date">Start Date</label>
+                <input type='date' value={startDate} onChange={e=>setStartDate(e.target.value)} id='start-date' />
+                <label htmlFor="end-date">End Date</label>
+                <input type='date' value={endDate} onChange={e=>setEndDate(e.target.value)} id='end-date' />
+                <button type='submit'>submit</button>
+            </form>
+            {pinned.length > 0 && <h3>Pinned Drawings</h3>}
+            {pinned && pinned.map(e => <Draw
+                drawDate={e.drawDate}
+                drawNumber={e.drawNumber} 
+                bonus={e.bonus}
+                winningNumbers={e.winningNumbers}
+                key={e.drawNumber}
+                pin={true}
+            />)} 
+
+            <h3>Results</h3>
+            {apiData && dataFilter(apiData).slice(page*30, page*30+30).map(e => <Draw 
+                drawDate={e.drawDate}
+                drawNumber={e.drawNumber} 
+                bonus={e.bonus}
+                winningNumbers={e.winningNumbers}
+                key={e.drawNumber}
+                pin={pinned.find(el=>el.drawNumber === e.drawNumber)}
+            />)} 
+            <button onClick={()=> dispatch(prevPage())} disabled={page<1}>previous</button>
+            <button onClick={()=> dispatch(nextPage())} disabled={dataFilter(apiData) && page*30+30>=dataFilter(apiData).length} >next</button>
+        </div>
+    )
 }
 
-export default App;
+export default App

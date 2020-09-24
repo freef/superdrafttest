@@ -1,8 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import { configureStore } from '@reduxjs/toolkit'
+import dataReducer from '../features/dataSlice'
+import pageReducer from '../features/pageSlice'
+import pinReducer from '../features/pinSlice'
 
 export default configureStore({
-  reducer: {
-    counter: counterReducer,
-  },
+    reducer: {
+        data: dataReducer,
+        pin: pinReducer,
+        page: pageReducer
+    },
 });
