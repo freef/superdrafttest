@@ -16,6 +16,7 @@ function App() {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [search, setSearch] = useState('')
+    const [focus, setFocus] = useState(false)
 
     // display actions
     const dataFilter = () => apiData.filter(e => e.drawNumber.toString().includes(search) || e.winningNumbers.join('-').includes(search) || e.winningNumbers.join(' ').includes(search))
@@ -37,15 +38,27 @@ function App() {
 
     return (
         <div className="App container"> 
-            <h1>Keno Lookup</h1>
-            <label htmlFor='search'>Search</label><input type='text' value={search} onChange={handleSearch} id='search' />
-            <form onSubmit={handleDates}>
-                <label htmlFor="start-date">Start Date</label>
-                <input type='date' value={startDate} onChange={e=>setStartDate(e.target.value)} id='start-date' />
-                <label htmlFor="end-date">End Date</label>
-                <input type='date' value={endDate} onChange={e=>setEndDate(e.target.value)} id='end-date' />
-                <button type='submit'>submit</button>
-            </form>
+            <h1 className='title'>Keno Lookup</h1>
+            <div className='search-container'>
+                <p className='search-copy'>{focus? 'Search by Game number or winning numbers within the selected dates.': ''} </p>
+                <div className='main-search'>
+                    <label htmlFor='search'>Search</label>
+                    <input className='main-input' type='text' value={search} onChange={handleSearch} onFocus={(e)=>setFocus(true)} onBlur={()=>setFocus(false)} id='search' />
+                </div>
+                <div className='date-search'>
+                    <form className='date-form' onSubmit={handleDates}>
+                        <div className='date-field'>
+                            <label className='date-label' htmlFor="start-date">Start Date</label>
+                            <input className='date-input' type='date' value={startDate} onChange={e=>setStartDate(e.target.value)} id='start-date' />
+                        </div>
+                        <div className='date-field'>
+                            <label className='date-label' htmlFor="end-date">End Date</label>
+                            <input className='date-input' type='date' value={endDate} onChange={e=>setEndDate(e.target.value)} id='end-date' />
+                        </div>
+                            <button className='date-btn btn' type='submit'>submit</button>
+                    </form>
+                </div>
+            </div>
             {pinned.length > 0 && <h3>Pinned Drawings</h3>}
             {pinned && pinned.map(e => <Draw
                 drawDate={e.drawDate}
@@ -65,8 +78,8 @@ function App() {
                 key={e.drawNumber}
                 pin={pinned.find(el=>el.drawNumber === e.drawNumber)}
             />)} 
-            <button onClick={()=> dispatch(prevPage())} disabled={page<1}>previous</button>
-            <button onClick={()=> dispatch(nextPage())} disabled={dataFilter(apiData) && page*30+30>=dataFilter(apiData).length} >next</button>
+            <button className='btn' onClick={()=> dispatch(prevPage())} disabled={page<1}>previous</button>
+            <button className='btn' onClick={()=> dispatch(nextPage())} disabled={dataFilter(apiData) && page*30+30>=dataFilter(apiData).length} >next</button>
         </div>
     )
 }

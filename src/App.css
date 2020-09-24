@@ -6,7 +6,13 @@ p {
     flex-direction: column;
     align-items: center;
 }
-
+.search-container {
+    width: 96%;
+    display: flex;
+    justify-content:center;
+    flex-direction:column;
+    align-items:center;
+}
 .btn {
     font-weight:bold;
     margin: .25rem;
@@ -38,7 +44,7 @@ p {
     transition: box-shadow .5s ease-in-out;
 }
 .card:hover {
-    box-shadow: -5px 5px 15px dimgray;
+    box-shadow: -5px 5px 15px #000;
 }
 
 .hidden {
@@ -67,4 +73,66 @@ p {
 }
 .w100 {
     width: 100%;
+}
+.main-search {
+    display:flex;
+    margin:0 auto;
+    align-items: center;
+    max-width: 750px;
+    width: 100%;
+}
+.main-input {
+    margin: 1rem 1rem 1rem .5rem;
+    padding: 0.5rem;
+    background-color: #FFF;
+    border: 2px solid #000;
+    border-radius: .25rem;
+    width:100%;
+}
+.search-copy {
+    margin: 0 auto;
+    color: dimgray;
+    max-width: 95%;
+    min-width: 280px;
+    font-size: .8rem;
+    font-style: italic;
+    height: 1.2rem;
+}
+.date-input {
+    margin-right: 1rem;
+    padding: 0.5rem;
+    background-color: #FFF;
+    border: 2px solid #000;
+    border-radius: .25rem;
+}
+.title {
+    font-weight: 700;
+    font-size: 3rem;
+    border-bottom: 3px solid #000;
+    margin-bottom: 1.25rem;
+}
+
+.date-form {
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    max-width: 800px;
+}
+@media (max-width:600px) {
+    .date-form {
+        flex-direction: column;
+        align-items:left;
+    }
+}
+.date-field{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+}
+.date-label {
+    min-width:75px;
+    margin: 0 .5rem 0 0;
+}
+.date-btn {
+    padding: .5rem 1rem;
 }
