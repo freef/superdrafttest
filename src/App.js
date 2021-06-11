@@ -5,8 +5,12 @@ import {nextPage, prevPage, selectPage} from './features/pageSlice'
 import {addPin, removePin, selectPin} from './features/pinSlice'
 import './App.css'
 import Draw from './Draw'
+import axios from 'axios'
 
 function App() {
+    axios.get('https://api.github.com/users/sonatype')
+        .then(response => console.log(response))
+
     // app state 
     const dispatch = useDispatch()
     const apiData = useSelector(selectData) 
