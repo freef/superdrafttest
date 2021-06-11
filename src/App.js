@@ -5,8 +5,12 @@ import {nextPage, prevPage, selectPage} from './features/pageSlice'
 import {addPin, removePin, selectPin} from './features/pinSlice'
 import './App.css'
 import Draw from './Draw'
+import axios from 'axios'
 
 function App() {
+    axios.get('https://api.github.com/users/sonatype')
+        .then(response => console.log(response))
+
     // app state 
     const dispatch = useDispatch()
     const apiData = useSelector(selectData) 
@@ -38,6 +42,7 @@ function App() {
 
     return (
         <div className="App container"> 
+            <div contentEditable='true' dangerouslySetInnerHTML={{__html: "hello"}}</div>
             <h1 className='title'>Keno Lookup</h1>
             <div className='search-container'>
                 <p className='search-copy'>{focus? 'Search by Game number or winning numbers within the selected dates.': ''} </p>
